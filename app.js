@@ -8,17 +8,14 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Helper function to generate random ID
 function generateShortId() {
     return Math.random().toString(36).substring(2, 8);
 }
 
-// Serve the HTML file
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Create a short URL
 app.post('/shorten', (req, res) => {
     const { longUrl } = req.body;
     if (!longUrl) {
@@ -35,7 +32,6 @@ app.post('/shorten', (req, res) => {
     res.json({ shortUrl });
 });
 
-// Redirect to original URL
 app.get('/:id', (req, res) => {
     const shortId = req.params.id;
     const urlDatabase = JSON.parse(fs.readFileSync('url.json', 'utf8'));
